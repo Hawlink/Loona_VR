@@ -12,19 +12,26 @@ public class Player
 
     private List<Item> _stock = new List<Item>();
 
+    public List<Animal> animals => _animals;
+
     public Player(string name)
     {
         _name = name;
     }
-    
-    public void addToInventory()
+
+    public void addAnimal(Animal animal)
     {
-        
+        _animals.Add(animal);
+    }
+    
+    public void addToInventory(Item item)
+    {
+        _inventory.Add(item);
     }
 
-    public void addToStock()
+    public void addToStock(Item item)
     {
-        
+        _stock.Add(item);
     }
 
     public void playWithAnimal()
