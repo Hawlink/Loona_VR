@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Watch : MonoBehaviour
 {
@@ -14,9 +15,7 @@ public class Watch : MonoBehaviour
         m_canvas.SetActive(false);
         
         
-        string loadedPositionData = PlayerPrefs.GetString("PlayerPosition");
-        Vector3 playerPosition = JsonUtility.FromJson<Vector3>(loadedPositionData);
-        GameObject.Find("PlayerController").transform.position = playerPosition;
+        
     }
 
     // Update is called once per frame
@@ -40,8 +39,7 @@ public class Watch : MonoBehaviour
 
     public void BtnSaveOnClick()
     {
-        Vector3 playerPosition = GameObject.Find("PlayerController").transform.position;
-        string savePositionData = JsonUtility.ToJson(playerPosition);
-        PlayerPrefs.SetString("PlayerPosition", savePositionData);
+        string saveName = GameObject.Find("InputSaveName").GetComponent<InputField>().text;
+        GameObject.FindObjectOfType<Game>().SaveGame(saveName);
     }
 }
