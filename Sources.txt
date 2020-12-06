@@ -1,2 +1,10 @@
-Wood texture :
+Grass sprites :
+https://kenney.nl/assets/foliage-sprites
+
+Grass tutorial :
+https://www.youtube.com/watch?v=NMlVZYvspJk&ab_channel=AJTech
+
+Wood texture (if used) :
 Designed by 0melapics / Freepik
+
+Wood sign image by OpenClipart-Vectors from Pixabay
