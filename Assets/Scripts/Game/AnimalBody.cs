@@ -6,7 +6,7 @@ public class AnimalBody : MonoBehaviour
 {
 
     [SerializeField]
-    private AnimalType _type;
+    private Animal _animal;
     
     // Start is called before the first frame update
     void Start()
@@ -19,10 +19,4 @@ public class AnimalBody : MonoBehaviour
     {
         
     }
-}
-
-public enum AnimalType
-{
-    Deer,
-    Rabbit
 }

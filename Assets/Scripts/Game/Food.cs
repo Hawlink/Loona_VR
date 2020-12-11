@@ -6,7 +6,7 @@ public class Food : Item
 {
     private int _hungerRestoration;
 
-    public Food(string name, int hungerRestoration) : base(name)
+    public Food(string name, string prefab, int hungerRestoration) : base(name, prefab)
     {
         _hungerRestoration = hungerRestoration;
     }

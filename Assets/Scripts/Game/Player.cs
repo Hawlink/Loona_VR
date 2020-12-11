@@ -12,16 +12,31 @@ public class Player
 
     private List<Item> _stock = new List<Item>();
 
+    public List<Item> inventory => _inventory;
+
     public List<Animal> animals => _animals;
 
     public Player(string name)
     {
         _name = name;
+        
+        _inventory.Add(GameObject.FindObjectOfType<Game>().items[0]);
+        _inventory.Add(GameObject.FindObjectOfType<Game>().items[0]);
+        _inventory.Add(GameObject.FindObjectOfType<Game>().items[0]);
+        _inventory.Add(GameObject.FindObjectOfType<Game>().items[1]);
+        _inventory.Add(GameObject.FindObjectOfType<Game>().items[1]);
+
     }
 
     public void addAnimal(Animal animal)
     {
         _animals.Add(animal);
+    }
+
+
+    public void removeFromInventory(Item item)
+    {
+        _inventory.Remove(item);
     }
     
     public void addToInventory(Item item)
@@ -43,4 +58,5 @@ public class Player
     {
         
     }
+
 }

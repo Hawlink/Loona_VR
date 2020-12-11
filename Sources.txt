@@ -8,3 +8,8 @@ Wood texture (if used) :
 Designed by 0melapics / Freepik
 
 Wood sign image by OpenClipart-Vectors from Pixabay
+
+Fonts :
+Bauhaus 93
+Bodoni MT
+Ting Tong

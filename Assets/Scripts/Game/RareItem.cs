@@ -6,7 +6,7 @@ public class RareItem : Item
 {
     private int _maxHappinessBonus;
     
-    public RareItem(string name, int maxHappinessBonus) : base(name)
+    public RareItem(string name, string prefab, int maxHappinessBonus) : base(name,prefab)
     {
         _maxHappinessBonus = maxHappinessBonus;
     }
