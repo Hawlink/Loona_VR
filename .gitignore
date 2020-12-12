@@ -9,7 +9,30 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
-/[Aa]ssets/Oculus
+/[Aa]ssets/Oculus/AudioManager
+/[Aa]ssets/Oculus/Avatar
+/[Aa]ssets/Oculus/LipSync
+/[Aa]ssets/Oculus/Platform
+/[Aa]ssets/Oculus/Spatializer
+/[Aa]ssets/Oculus/SampleFramework/Editor
+/[Aa]ssets/Oculus/SampleFramework/Usage
+/[Aa]ssets/Oculus/SampleFramework/Core/CustomHands
+/[Aa]ssets/Oculus/SampleFramework/Core/DistanceGrab
+/[Aa]ssets/Oculus/SampleFramework/Core/HandsInteraction
+/[Aa]ssets/Oculus/SampleFramework/Core/Locomotion
+/[Aa]ssets/Oculus/SampleFramework/Core/TouchControllers
+/[Aa]ssets/Oculus/SampleFramework/Core/Video
+/[Aa]ssets/Oculus/VR/AudioClips
+/[Aa]ssets/Oculus/VR/Editor
+/[Aa]ssets/Oculus/VR/Materials
+/[Aa]ssets/Oculus/VR/Meshes
+/[Aa]ssets/Oculus/VR/Plugins
+/[Aa]ssets/Oculus/VR/Prefabs
+/[Aa]ssets/Oculus/VR/Resources
+/[Aa]ssets/Oculus/VR/Scenes
+/[Aa]ssets/Oculus/VR/Shaders
+/[Aa]ssets/Oculus/VR/Textures
+/[Aa]ssets/Oculus/VR/ThirdParty
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
