@@ -2,15 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Force GameObject to always face the camera (for text for instance)
+/// </summary>
 public class FacingCamera : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         transform.rotation = Quaternion.LookRotation(transform.position - Camera.main.transform.position);

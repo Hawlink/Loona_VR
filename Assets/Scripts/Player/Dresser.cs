@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Dresser : MonoBehaviour
@@ -22,6 +23,8 @@ public class Dresser : MonoBehaviour
     private GameObject _inventoryCircle;
     private GameObject _stockCircle;
 
+    private List<GameObject> _uiHelpers;
+
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +36,14 @@ public class Dresser : MonoBehaviour
         
         _rotationInventory = 0;
         _rotationStock = 0;
+        
+        _uiHelpers = new List<GameObject>();
+        foreach (TextMesh uiInfo in _pullableDrawer.GetComponentsInChildren<TextMesh>())
+        {
+            _uiHelpers.Add(uiInfo.gameObject);
+            uiInfo.gameObject.SetActive(false);
+        }
+        
     }
 
     GameObject GetClosestInventoryItem(GameObject itemsCircle, Transform hand)
@@ -84,32 +95,41 @@ public class Dresser : MonoBehaviour
             foreach(TextMesh text in _stockCircle.GetComponentsInChildren<TextMesh>()) text.color = new Color(1,1,1);
 
             GameObject closestInventoryItem = GetClosestInventoryItem(_inventoryCircle, GameObject.Find("CustomHandLeft").transform);
-            closestInventoryItem.GetComponentInChildren<TextMesh>().color = new Color(1, 0, 0);
+            if(closestInventoryItem != null)
+                closestInventoryItem.GetComponentInChildren<TextMesh>().color = new Color(1, 0, 0);
             GameObject closestStackItem = GetClosestInventoryItem(_stockCircle, GameObject.Find("CustomHandRight").transform);
-            closestStackItem.GetComponentInChildren<TextMesh>().color = new Color(1, 0, 0);
+            if(closestStackItem)
+                closestStackItem.GetComponentInChildren<TextMesh>().color = new Color(1, 0, 0);
             
             if (OVRInput.GetDown(OVRInput.RawButton.LIndexTrigger))
             {
                 //Pass object in the stack
-                Item selectedItem =
-                    GetClosestInventoryItem(_inventoryCircle, GameObject.Find("CustomHandLeft").transform)
-                        .GetComponent<ItemBody>().item;
-                GameObject.FindObjectOfType<Game>().player.removeFromInventory(selectedItem);
-                GameObject.FindObjectOfType<Game>().player.addToStock(selectedItem);
-                DestroyCirclesMenu();
-                CreateCirclesMenu();
+                GameObject selectedGameObject =
+                    GetClosestInventoryItem(_inventoryCircle, GameObject.Find("CustomHandLeft").transform);
+                if (selectedGameObject != null)
+                {
+                    Item selectedItem = selectedGameObject.GetComponent<ItemBody>().item;
+                    GameObject.FindObjectOfType<Game>().player.removeFromInventory(selectedItem);
+                    GameObject.FindObjectOfType<Game>().player.addToStock(selectedItem);
+                    DestroyCirclesMenu();
+                    CreateCirclesMenu();
+                }
             }
 
             if (OVRInput.GetDown(OVRInput.RawButton.RIndexTrigger))
             {
                 //Pass object in the inventory if possible
-                Item selectedItem =
-                    GetClosestInventoryItem(_stockCircle, GameObject.Find("CustomHandRight").transform)
-                        .GetComponent<ItemBody>().item;
-                GameObject.FindObjectOfType<Game>().player.removeFromStock(selectedItem);
-                GameObject.FindObjectOfType<Game>().player.addToInventory(selectedItem);
-                DestroyCirclesMenu();
-                CreateCirclesMenu();
+                GameObject selectedGameObject =
+                    GetClosestInventoryItem(_stockCircle, GameObject.Find("CustomHandRight").transform);
+                if (selectedGameObject != null)
+                {
+                    Item selectedItem = selectedGameObject.GetComponent<ItemBody>().item;
+                    GameObject.FindObjectOfType<Game>().player.removeFromStock(selectedItem);
+                    GameObject.FindObjectOfType<Game>().player.addToInventory(selectedItem);
+                    DestroyCirclesMenu();
+                    CreateCirclesMenu();
+                }
+
             }
         }
 
@@ -153,6 +173,14 @@ public class Dresser : MonoBehaviour
             
         ApplyRotationCircle(_inventoryCircle,_rotationInventory);
         ApplyRotationCircle(_stockCircle,_rotationStock);
+        
+        foreach (GameObject go in _uiHelpers)
+        {
+            go.SetActive(true);
+        }
+
+        StartCoroutine(PlayerUtils.MessageCoroutine("Cliquer les items sélectionnés pour les faire passer dans l'inventaire et inversement", 6,GameObject.FindObjectOfType<Game>()));
+
     }
 
     private void DestroyCirclesMenu()
@@ -161,6 +189,10 @@ public class Dresser : MonoBehaviour
         Destroy(_stockCircle);
         _inventoryCircle = null;
         _stockCircle = null;
+        foreach (GameObject go in _uiHelpers)
+        {
+            go.SetActive(false);
+        }
     }
     
     void OnTriggerEnter(Collider collider)

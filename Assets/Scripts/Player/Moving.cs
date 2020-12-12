@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Keyboard moving
+/// </summary>
 public class Moving : MonoBehaviour
 {
     

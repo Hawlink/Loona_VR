@@ -19,8 +19,14 @@ public class Savegames
 }
 
 
+/// <summary>
+/// Main game behaviour
+/// </summary>
 public class Game : MonoBehaviour
 {
+    /// <summary>
+    /// Canvas to put message to the user
+    /// </summary>
     [SerializeField]
     private GameObject _messageCanvas;
 
@@ -29,19 +35,34 @@ public class Game : MonoBehaviour
     //TODO: Remove (or at least move) the fixed rotation of the player to avoid the upside-down teleportation pb
     private GameObject _playerGameObject;
     
+    /// <summary>
+    /// Player informations (stock, inventory)
+    /// </summary>
     private Player _player;
 
     public Player player => _player;
-
-    private List<Food> _food = new List<Food>();
     
+    /// <summary>
+    /// List of items existing in the game
+    /// </summary>
     private List<Item> _items = new List<Item>();
 
     public List<Item> items => _items;
 
     private bool _gameIsAlive = true;
+    
+    /// <summary>
+    /// Object currently grabbed by player
+    /// </summary>
+    private OVRGrabbable grabbedObject;
 
 
+    /// <summary>
+    /// Get item by his name
+    /// TODO: Replace string by item enum
+    /// </summary>
+    /// <param name="name">Item name</param>
+    /// <returns></returns>
     public Item GetItem(string name)
     {
         Item res = null;
@@ -52,6 +73,11 @@ public class Game : MonoBehaviour
         return res;
     }
 
+    /// <summary>
+    /// Save game in the disk
+    /// Currently only player position
+    /// </summary>
+    /// <param name="saveName">Save name</param>
     public void SaveGame(string saveName)
     {
         
@@ -83,6 +109,11 @@ public class Game : MonoBehaviour
         PlayerPrefs.Save();
     }
     
+    /// <summary>
+    /// Load player game
+    /// Currently only player position
+    /// </summary>
+    /// <param name="saveName"></param>
     public void LoadGame(string saveName)
     {
         if (PlayerPrefs.HasKey("Savegames"))
@@ -103,6 +134,12 @@ public class Game : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Redirect Unity logs on the VR screen
+    /// </summary>
+    /// <param name="condition"></param>
+    /// <param name="stackTrace"></param>
+    /// <param name="type"></param>
     private void Application_logMessageReceived(string condition, string stackTrace, LogType type)
     {
         if (type == LogType.Error || type == LogType.Exception)
@@ -156,6 +193,11 @@ public class Game : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Main loop game
+    /// Every ten seconds, animals stats are updated
+    /// </summary>
+    /// <returns></returns>
     IEnumerator GameLoop()
     {
         while (_gameIsAlive)
@@ -170,6 +212,10 @@ public class Game : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Player grab an object
+    /// </summary>
+    /// <param name="grabbableObject">Object grabbed</param>
     public void OnGrabBegin(object grabbableObject)
     {
         DebugUtils.message2 = "GRAB BEGIN";
@@ -192,11 +238,18 @@ public class Game : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// Player drop an object
+    /// </summary>
     public void OnGrabEnd()
     {
         gameObject.GetComponentInChildren<Bag>().OnGrabEnd();
     }
 
+    /// <summary>
+    /// Unused
+    /// </summary>
+    /// <param name="collider"></param>
     void OnTriggerExit(Collider collider)
     {
         /*
@@ -235,9 +288,6 @@ public class Game : MonoBehaviour
             }
         }*/
     }
-
-    private OVRGrabbable grabbedObject;
-    
     /*void OnTriggerEnter(Collider collider)
     {
 

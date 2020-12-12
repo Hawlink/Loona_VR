@@ -17,6 +17,11 @@ public abstract class Item
         _prefab = prefab;
     }
 
+    /// <summary>
+    /// Get the prefab GameObject corresponding to an item
+    /// Warning : instantiate the prefab before use it to not modify directly the prefab object
+    /// </summary>
+    /// <returns></returns>
     public GameObject GetPrefab()
     {
         return Resources.Load(_prefab,typeof(GameObject)) as GameObject;

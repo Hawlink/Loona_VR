@@ -25,6 +25,13 @@ public class Watch : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*string msg = "Grabbed : NULL";
+        foreach (OVRGrabber gra in GameObject.FindObjectsOfType<OVRGrabber>())
+        {
+            if (gra.grabbedObject != null) msg = gra.grabbedObject.name;
+        }
+
+        DebugUtils.message3 = msg;*/
         if (m_canvas.activeSelf)
         {
             float lastXPosition = -1;

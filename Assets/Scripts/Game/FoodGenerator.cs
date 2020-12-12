@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Generate food item randomly
+/// </summary>
 public class FoodGenerator : MonoBehaviour
 {
 

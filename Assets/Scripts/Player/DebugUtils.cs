@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Show three debugs messages in the VR view
+/// </summary>
 public class DebugUtils : MonoBehaviour
 {
     

@@ -3,13 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Link between an item and his physical representation
+/// </summary>
 [RequireComponent(typeof(Rigidbody))]
 public class ItemBody : MonoBehaviour
 {
 
+    /// <summary>
+    /// Item corresponding to this body
+    /// </summary>
     [SerializeField]
     private Item _item;
 
+    /// <summary>
+    /// Object type
+    /// (Little redundancy with _item but allow to edit the object type in Unity editor)
+    /// </summary>
     [SerializeField]
     private ObjectType _type;
     
@@ -25,6 +35,9 @@ public class ItemBody : MonoBehaviour
         set => _item = value;
     }
 
+    /// <summary>
+    /// Create the body in function of the item type
+    /// </summary>
     public void InitializeItem()
     {
         switch (_type)
@@ -52,6 +65,9 @@ public class ItemBody : MonoBehaviour
 }
 
 
+/// <summary>
+/// List of item types in the game
+/// </summary>
 public enum ObjectType
 {
     Ribbon,

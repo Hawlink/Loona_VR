@@ -22,17 +22,9 @@ public class Bag : MonoBehaviour
         
     }
 
-    public IEnumerator MessageCoroutine(string message, int seconds)
-    {
-        _game.messageCanvas.SetActive(true);
-        _game.messageCanvas.GetComponentInChildren<Text>().text = message;
-        yield return new WaitForSeconds(seconds);
-        _game.messageCanvas.SetActive(false);
-    }
-
     IEnumerator DestroyObject(OVRGrabbable toDestroy)
     {
-        yield return new WaitForSeconds(1.2f);
+        yield return new WaitForSeconds(1.5f);
         Destroy(toDestroy.gameObject);
     }
     
@@ -45,7 +37,7 @@ public class Bag : MonoBehaviour
             {
                 _game.player.addToInventory(grabbedObjectInTrigger.GetComponent<ItemBody>().item);
                 DebugUtils.message2 = "Is K : " + grabbedObjectInTrigger.GetComponent<Rigidbody>().isKinematic.ToString();
-                StartCoroutine(MessageCoroutine("Vous avez lâché l'objet dans le sac !", 3));
+                StartCoroutine(PlayerUtils.MessageCoroutine("Vous avez lâché l'objet dans le sac !", 3,_game));
                 GameObject toDestroy = grabbedObjectInTrigger.gameObject;
                 StartCoroutine(DestroyObject(grabbedObjectInTrigger));
                 //Destroy(grabbedObjectInTrigger.gameObject);
@@ -53,7 +45,7 @@ public class Bag : MonoBehaviour
             }
             else
             {
-                StartCoroutine(MessageCoroutine("Vous n'avez plus de place !", 3));
+                StartCoroutine(PlayerUtils.MessageCoroutine("Vous n'avez plus de place !", 3,_game));
             }
         }
         grabbedObjectInTrigger = null;
