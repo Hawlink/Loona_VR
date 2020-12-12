@@ -54,6 +54,11 @@ public class Player
         _inventory.Remove(item);
     }
     
+    public void removeFromStock(Item item)
+    {
+        _stock.Remove(item);
+    }
+    
     public void addToInventory(Item item)
     {
         _inventory.Add(item);

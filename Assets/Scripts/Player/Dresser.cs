@@ -78,16 +78,7 @@ public class Dresser : MonoBehaviour
                 _rotationInventory +=7;
                 ApplyRotationCircle(_inventoryCircle, _rotationInventory);
             }
-
-            if (OVRInput.GetDown(OVRInput.RawButton.LIndexTrigger))
-            {
-                //Pass object in the stack
-            }
-
-            if (OVRInput.GetDown(OVRInput.RawButton.RIndexTrigger))
-            {
-                //Pass object in the inventory if possible
-            }
+            
             
             foreach(TextMesh text in _inventoryCircle.GetComponentsInChildren<TextMesh>()) text.color = new Color(1,1,1);
             foreach(TextMesh text in _stockCircle.GetComponentsInChildren<TextMesh>()) text.color = new Color(1,1,1);
@@ -96,6 +87,30 @@ public class Dresser : MonoBehaviour
             closestInventoryItem.GetComponentInChildren<TextMesh>().color = new Color(1, 0, 0);
             GameObject closestStackItem = GetClosestInventoryItem(_stockCircle, GameObject.Find("CustomHandRight").transform);
             closestStackItem.GetComponentInChildren<TextMesh>().color = new Color(1, 0, 0);
+            
+            if (OVRInput.GetDown(OVRInput.RawButton.LIndexTrigger))
+            {
+                //Pass object in the stack
+                Item selectedItem =
+                    GetClosestInventoryItem(_inventoryCircle, GameObject.Find("CustomHandLeft").transform)
+                        .GetComponent<ItemBody>().item;
+                GameObject.FindObjectOfType<Game>().player.removeFromInventory(selectedItem);
+                GameObject.FindObjectOfType<Game>().player.addToStock(selectedItem);
+                DestroyCirclesMenu();
+                CreateCirclesMenu();
+            }
+
+            if (OVRInput.GetDown(OVRInput.RawButton.RIndexTrigger))
+            {
+                //Pass object in the inventory if possible
+                Item selectedItem =
+                    GetClosestInventoryItem(_stockCircle, GameObject.Find("CustomHandRight").transform)
+                        .GetComponent<ItemBody>().item;
+                GameObject.FindObjectOfType<Game>().player.removeFromStock(selectedItem);
+                GameObject.FindObjectOfType<Game>().player.addToInventory(selectedItem);
+                DestroyCirclesMenu();
+                CreateCirclesMenu();
+            }
         }
 
     }
@@ -125,26 +140,34 @@ public class Dresser : MonoBehaviour
     {
         if (collider.gameObject.tag == "Hand" && _inventoryCircle != null && _stockCircle != null)
         {
-            DebugUtils.message3 = "EXIT";
-            Destroy(_inventoryCircle);
-            Destroy(_stockCircle);
-            _inventoryCircle = null;
-            _stockCircle = null;
+            DestroyCirclesMenu();
         }
     }
 
+    private void CreateCirclesMenu()
+    {
+        _inventoryCircle = PlayerUtils.InitializeCircleMenu(GameObject.FindObjectOfType<Game>().player.inventory,
+            _dresserInventoryLocation.transform, new Vector3(0,0,0), 0.2f, 0.45f, true);
+        _stockCircle = PlayerUtils.InitializeCircleMenu(GameObject.FindObjectOfType<Game>().player.stock,
+            _dresserStockLocation.transform,new Vector3(0,0,0), 0.2f, 0.45f, true);
+            
+        ApplyRotationCircle(_inventoryCircle,_rotationInventory);
+        ApplyRotationCircle(_stockCircle,_rotationStock);
+    }
+
+    private void DestroyCirclesMenu()
+    {
+        Destroy(_inventoryCircle);
+        Destroy(_stockCircle);
+        _inventoryCircle = null;
+        _stockCircle = null;
+    }
+    
     void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.tag == "Hand" && _inventoryCircle == null && _stockCircle == null)
         {
-            DebugUtils.message3 = "ENTER";
-            _inventoryCircle = PlayerUtils.InitializeCircleMenu(GameObject.FindObjectOfType<Game>().player.inventory,
-                _dresserInventoryLocation.transform, new Vector3(0,0,0), 0.2f, 0.45f, true);
-            _stockCircle = PlayerUtils.InitializeCircleMenu(GameObject.FindObjectOfType<Game>().player.stock,
-                _dresserStockLocation.transform,new Vector3(0,0,0), 0.2f, 0.45f, true);
-            
-            ApplyRotationCircle(_inventoryCircle,_rotationInventory);
-            ApplyRotationCircle(_stockCircle,_rotationStock);
+            CreateCirclesMenu();
         }
     }
 }

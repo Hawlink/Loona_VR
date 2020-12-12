@@ -123,12 +123,12 @@ public class Watch : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
-        /*
+        
         if (collider.gameObject.tag == "Hand" && !m_canvas.activeSelf)
         {
             m_canvas.SetActive(true);
             InitializeCircleMenu();
-        }*/
+        }
     }
 
     public void BtnQuitWatchOnClick()
