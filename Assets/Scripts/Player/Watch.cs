@@ -12,9 +12,7 @@ public class Watch : MonoBehaviour
     private GameObject m_canvas;
 
     private GameObject _circleInventory;
-
-    private List<GameObject> _itemsInventory;
-
+    
     private int offset = 0;
     
     // Start is called before the first frame update
@@ -22,7 +20,6 @@ public class Watch : MonoBehaviour
     {
         m_canvas = GameObject.Find("WatchCanvas");
         m_canvas.SetActive(false);
-
     }
 
     // Update is called once per frame
@@ -64,18 +61,19 @@ public class Watch : MonoBehaviour
 
     public void ApplyRotationOnCircleMenu()
     {
-        foreach (GameObject item in _itemsInventory)
-        {
-            Vector3 rotation = item.transform.rotation.eulerAngles;
-            rotation = new Vector3(rotation.x, offset, rotation.z);
-            item.transform.rotation = Quaternion.Euler(rotation);
-        }
+        Vector3 rotation = _circleInventory.transform.rotation.eulerAngles;
+        rotation = new Vector3(rotation.x, offset, rotation.z);
+        _circleInventory.transform.rotation = Quaternion.Euler(rotation);
+    
     }
 
     public void InitializeCircleMenu()
     {
 
-        _itemsInventory = new List<GameObject>();
+        _circleInventory = PlayerUtils.InitializeCircleMenu(GameObject.FindObjectOfType<Game>().player.inventory,
+            m_canvas.transform.parent.parent.parent.parent, new Vector3(-0.6f, 0.65f, 1f), 0.6f, 0.75f);
+        
+        /*
         Dictionary<Item,int> inventory = new Dictionary<Item, int>();
         foreach (Item item in GameObject.FindObjectOfType<Game>().player.inventory)
         {
@@ -89,12 +87,7 @@ public class Watch : MonoBehaviour
 
         _circleInventory = new GameObject("Inventory");
         _circleInventory.transform.parent = m_canvas.transform.parent.parent.parent.parent;
-        _circleInventory.transform.localPosition = Vector3.zero;
-
-        GameObject circleCenter = new GameObject("InventoryCircleCenter");
-        circleCenter.transform.parent = _circleInventory.transform;
-        circleCenter.transform.localPosition = new Vector3(-0.6f, 0.65f, 1f);
-        _itemsInventory.Add(circleCenter);
+        _circleInventory.transform.localPosition = new Vector3(-0.6f, 0.65f, 1f);
 
         int totalItems = inventory.Count;
         int i = 0;
@@ -105,7 +98,7 @@ public class Watch : MonoBehaviour
             item.GetComponent<Rigidbody>().useGravity = false;
             item.GetComponent<Rigidbody>().isKinematic = true;
             //capsule.transform.localScale = new Vector3(0.1f,0.1f,0.1f);
-            item.transform.parent = circleCenter.transform;
+            item.transform.parent = _circleInventory.transform;
             float angle = (360 / (totalItems + 0.0f)) * i * Mathf.PI / 180;
             item.transform.localPosition = new Vector3(0.7f*Mathf.Cos(angle),0,0.7f*Mathf.Sin(angle));
             item.transform.localScale *= 0.75f;
@@ -117,26 +110,25 @@ public class Watch : MonoBehaviour
             tm.text = kvp.Value.ToString();
             i++;
         }
-        
+        */
         ApplyRotationOnCircleMenu();
 
     }
 
     public void DestroyCircleMenu()
     {
-        _itemsInventory.Clear();
-        DebugUtils.message3 = "DELETED !";
         Destroy(_circleInventory);
         _circleInventory = null;
     }
 
     void OnTriggerEnter(Collider collider)
     {
+        /*
         if (collider.gameObject.tag == "Hand" && !m_canvas.activeSelf)
         {
             m_canvas.SetActive(true);
             InitializeCircleMenu();
-        }
+        }*/
     }
 
     public void BtnQuitWatchOnClick()

@@ -13,6 +13,7 @@ public class Player
     private List<Item> _stock = new List<Item>();
 
     public List<Item> inventory => _inventory;
+    public List<Item> stock => _stock;
 
     public List<Animal> animals => _animals;
 
@@ -25,6 +26,20 @@ public class Player
         _inventory.Add(GameObject.FindObjectOfType<Game>().items[0]);
         _inventory.Add(GameObject.FindObjectOfType<Game>().items[1]);
         _inventory.Add(GameObject.FindObjectOfType<Game>().items[1]);
+        _stock.Add(GameObject.FindObjectOfType<Game>().items[0]);
+        _stock.Add(GameObject.FindObjectOfType<Game>().items[0]);
+        _stock.Add(GameObject.FindObjectOfType<Game>().items[0]);
+        _stock.Add(GameObject.FindObjectOfType<Game>().items[0]);
+        _stock.Add(GameObject.FindObjectOfType<Game>().items[0]);
+        _stock.Add(GameObject.FindObjectOfType<Game>().items[0]);
+        _stock.Add(GameObject.FindObjectOfType<Game>().items[0]);
+        _stock.Add(GameObject.FindObjectOfType<Game>().items[1]);
+        _stock.Add(GameObject.FindObjectOfType<Game>().items[1]);
+        _stock.Add(GameObject.FindObjectOfType<Game>().items[1]);
+        _stock.Add(GameObject.FindObjectOfType<Game>().items[1]);
+        _stock.Add(GameObject.FindObjectOfType<Game>().items[1]);
+        _stock.Add(GameObject.FindObjectOfType<Game>().items[1]);
+        _stock.Add(GameObject.FindObjectOfType<Game>().items[1]);
 
     }
 
