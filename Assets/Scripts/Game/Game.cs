@@ -152,13 +152,13 @@ public class Game : MonoBehaviour
     }
     
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         Application.logMessageReceived += Application_logMessageReceived;
         _messageCanvas.SetActive(false);
         
         _items.Add(new Food("Carrot","Prefabs/Objects/Carrot",60));
-        _items.Add(new RareItem("Ribbon", "Prefabs/Objects/Ribbon", 40));
+        _items.Add(new RareItem("Ribbon", "Prefabs/Objects/Ribbon", 40, new Vector3(-0.17f,0.83f,-0.26f), new Vector3(-90,0,0) ));
 
         if (MainGameCommonValues.gameName != "")
         {

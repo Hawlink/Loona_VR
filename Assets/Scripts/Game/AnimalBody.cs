@@ -44,10 +44,10 @@ public class AnimalBody : MonoBehaviour
         switch (_type)
         {
             case AnimalType.Rabbit:
-                _animal =new Animal("Rabbit",100,game.GetItem("Carrot") as Food);
+                _animal =new Animal("Rabbit",100,game.GetItem("Carrot") as Food, game.GetItem("Ribbon") as RareItem);
                 break;
             case AnimalType.Deer:
-                _animal =new Animal("Deer",100,game.GetItem("Carrot") as Food);
+                _animal =new Animal("Deer",100,game.GetItem("Carrot") as Food, game.GetItem("Ribbon") as RareItem);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -93,20 +93,35 @@ public class AnimalBody : MonoBehaviour
 
     public void SetSlowSpeed()
     {
-        _navMeshAgent.speed = 1;
+        _navMeshAgent.speed = 0.75f;
     }
 
     public void SetNormalSpeed()
     {
-        _navMeshAgent.speed = 2;
+        _navMeshAgent.speed = 1.5f;
     }
     
-    public void OnTriggerEnter(Collider collider)
+    public void OnTriggerStay(Collider collider)
     {
         ItemBody body = collider.gameObject.GetComponent<ItemBody>();
-        if (body != null && body.item == _animal.eat)
+        if (body)
+        {
+            Debug.Log(animal.name + " - " + body.item.name + " - " + (body.item == _animal.canWear));
+        }
+        if (foundFood != null && body != null && body.item == _animal.eat && body.gameObject.GetComponent<Rigidbody>().useGravity)
         {
             foundFood = body;
+        }
+
+        if (!animal.WearItem() && body != null && body.item == _animal.canWear && body.gameObject.GetComponent<Rigidbody>().useGravity)
+        {
+            RareItem item = body.item as RareItem;
+            DebugUtils.message = animal.name + " - " + body.item.name;
+            body.gameObject.transform.parent = transform;
+            animal.SetWearItem(item);
+            Destroy(body.gameObject.GetComponent<OVRGrabbable>());
+            body.gameObject.GetComponent<Rigidbody>().useGravity = false;
+            body.gameObject.GetComponent<Rigidbody>().isKinematic = true;
         }
     }
 }

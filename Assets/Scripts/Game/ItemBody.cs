@@ -60,7 +60,11 @@ public class ItemBody : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (transform.parent?.GetComponent<AnimalBody>() != null)
+        {
+            transform.localPosition = (item as RareItem).wornPosition;
+            transform.localRotation = Quaternion.Euler((item as RareItem).wornRotation);
+        }
     }
 }
 
