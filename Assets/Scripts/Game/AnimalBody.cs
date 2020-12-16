@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class AnimalBody : MonoBehaviour
@@ -22,10 +23,7 @@ public class AnimalBody : MonoBehaviour
     private Vector3 _initialPosition;
 
     public Vector3 InitialPosition => _initialPosition;
-
-    private TextMesh _textMesh;
-    public TextMesh textMesh => _textMesh;
-
+    
     private ItemBody _foundFood = null;
 
     public ItemBody foundFood
@@ -54,19 +52,15 @@ public class AnimalBody : MonoBehaviour
         }
 
         _behavior = new AnimalStateMachine(this);
-
-        GameObject text = new GameObject();
-        _textMesh = text.AddComponent<TextMesh>();
-        text.AddComponent<FacingCamera>();
-        text.transform.parent = transform;
-        text.transform.localPosition = new Vector3(0, 20, 0);
+        
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         _behavior.Action();
-        _textMesh.text = _behavior.ToString() + "\n" + _animal.happiness + "\n" + _animal.hunger;
+        transform.Find("Canvas").Find("ProgressBarHungry").GetComponent<Image>().fillAmount = (_animal.hunger / 100.0f);
+        transform.Find("Canvas").Find("ProgressBarSad").GetComponent<Image>().fillAmount = (_animal.happiness / 100.0f);
     }
     
     public void StartChildCoroutine(IEnumerator coroutineMethod)

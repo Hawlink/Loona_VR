@@ -11,6 +11,7 @@ public class Animal
     private int _happiness;
     private int _maxHappiness;
     private RareItem _wear;
+    public RareItem wear => _wear;
     private RareItem _canWear;
     private Food _eat;
     public Food eat => _eat;
@@ -21,6 +22,15 @@ public class Animal
 
     public int happiness => _happiness;
 
+    public void SetProperties(int happiness, int hunger, Food eat, RareItem wear, RareItem canWear)
+    {
+        _happiness = happiness;
+        _hunger = hunger;
+        _wear = wear;
+        _canWear = canWear;
+        _eat = eat;
+    }
+    
     public Animal(string name, int maxHappiness, Food eat, RareItem canWear)
     {
         _name = name;

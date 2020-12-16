@@ -72,6 +72,7 @@ public class ItemBody : MonoBehaviour
 /// <summary>
 /// List of item types in the game
 /// </summary>
+[Serializable]
 public enum ObjectType
 {
     Ribbon,

@@ -5,11 +5,36 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
+/**
+ *
+items	deux listes name, valeurs pour stack et inventaire	ok (name si faut)
+
+animaux, lire body et les crées, puis feed avec valeurs (positoin + wear + hap eating ?)
+pourchaque objet : type - position ?
+ * 
+ */
+
+[Serializable]
+public class AnimalData
+{
+    public string name;
+    public Vector3 position;
+    public Vector3 rotation;
+    public int happiness;
+    public int hunger;
+    public string eat;
+    public string canWear;
+    public string wear;
+}
+
 [Serializable]
 public class Savegame
 {
     public string name;
     public Vector3 position;
+    public List<AnimalData> animals;
+    public List<string> itemsNamesInventory;
+    public List<string> itemsNamesStock;
 }
 
 [Serializable]
@@ -60,7 +85,7 @@ public class Game : MonoBehaviour
     
 
     /// <summary>
-    /// Get item by his name
+    /// Get item by its name
     /// TODO: Replace string by item enum
     /// </summary>
     /// <param name="name">Item name</param>
@@ -75,6 +100,21 @@ public class Game : MonoBehaviour
         return res;
     }
 
+    /// <summary>
+    /// Get animal by his name
+    /// </summary>
+    /// <param name="name">Animal name</param>
+    /// <returns></returns>
+    public AnimalBody GetAnimal(string name)
+    {
+        AnimalBody res = null;
+        foreach (AnimalBody ab in _animals)
+        {
+            if (ab.animal.name == name) res = ab;
+        }
+        return res;
+    }
+    
     /// <summary>
     /// Save game in the disk
     /// Currently only player position
@@ -97,14 +137,44 @@ public class Game : MonoBehaviour
         }
         
         Savegame existingSave = new Savegame(){name = saveName};
-        foreach(Savegame save in saves.savegames)
+        foreach (Savegame save in saves.savegames)
+        {
             if (save.name == saveName)
             {
                 existingSave = save;
-                saves.savegames.Remove(existingSave);
             }
+        }
+        saves.savegames.Remove(existingSave);
+
+        existingSave.position = transform.position;
+
+        existingSave.animals = new List<AnimalData>();
+
+        existingSave.itemsNamesInventory = new List<string>();
+        existingSave.itemsNamesStock = new List<string>();
+        foreach (Item item in _player.inventory)
+        {
+            existingSave.itemsNamesInventory.Add(item.name);
+        }
+        foreach (Item item in _player.stock)
+        {
+            existingSave.itemsNamesStock.Add(item.name);
+        }
+
+        foreach (AnimalBody ab in _animals)
+        {
+            AnimalData ad = new AnimalData();
+            ad.eat = ab.animal.eat.name;
+            ad.happiness = ab.animal.happiness;
+            ad.hunger = ab.animal.hunger;
+            ad.position = ab.transform.position;
+            ad.rotation = ab.transform.rotation.eulerAngles;
+            ad.wear = ab.animal.WearItem() ? ab.animal.wear.name : "";
+            ad.canWear = ab.animal.canWear.name;
+            ad.name = ab.name;
+            existingSave.animals.Add(ad);
+        }
         
-        existingSave.position = playerPosition;
         saves.savegames.Add(existingSave);
         
         PlayerPrefs.SetString("Savegames", JsonUtility.ToJson(saves, true));
@@ -130,8 +200,37 @@ public class Game : MonoBehaviour
             
             if (save != null)
             {
+                foreach (string s in save.itemsNamesInventory)
+                {
+                    _player.inventory.Add(GetItem(s));
+                }
+                foreach (string s in save.itemsNamesStock)
+                {
+                    _player.stock.Add(GetItem(s));
+                }
+                
                 Vector3 position = save.position;
                 GameObject.Find("PlayerController").transform.position = position;
+
+                foreach (AnimalData ad in save.animals)
+                {
+                    AnimalBody concernedAnimal = GetAnimal(ad.name);
+                    Food eat = GetItem(ad.eat) as Food;
+                    int happiness = ad.happiness;
+                    int hunger = ad.hunger;
+                    Vector3 animalPosition = ad.position;
+                    Vector3 animalRotation = ad.rotation;
+                    string wearStr = ad.wear;
+                    RareItem wear = null;
+                    if (wearStr != null)
+                    {
+                        wear = GetItem(wearStr) as RareItem;
+                    }
+                    RareItem canWear = GetItem(ad.canWear) as RareItem;
+                    concernedAnimal.animal.SetProperties(happiness,hunger,eat,wear,canWear);
+                    concernedAnimal.transform.position = animalPosition;
+                    concernedAnimal.transform.rotation = Quaternion.Euler(animalRotation);
+                }
             }
         }
     }
@@ -160,10 +259,6 @@ public class Game : MonoBehaviour
         _items.Add(new Food("Carrot","Prefabs/Objects/Carrot",60));
         _items.Add(new RareItem("Ribbon", "Prefabs/Objects/Ribbon", 40, new Vector3(-0.17f,0.83f,-0.26f), new Vector3(-90,0,0) ));
 
-        if (MainGameCommonValues.gameName != "")
-        {
-            LoadGame(MainGameCommonValues.gameName);
-        }
         _playerGameObject = GameObject.Find("PlayerController");
         GameObject.Find("Terrain").layer = GameObject.Find("LayerModel").layer;
         Camera.main.clearFlags = CameraClearFlags.SolidColor;
@@ -177,9 +272,27 @@ public class Game : MonoBehaviour
         {
             _animals.Add(ab);
         }
+        
+        
+
 
         StartCoroutine((GameLoop()));
 
+    }
+
+    IEnumerator LoadCoroutine()
+    {
+        yield return new WaitForSeconds(1f);
+        //MainGameCommonValues.gameName = "test";
+        if (MainGameCommonValues.gameName != "")
+        {
+            LoadGame(MainGameCommonValues.gameName);
+        }
+    }
+    
+    void Start()
+    {
+        StartCoroutine(LoadCoroutine());
     }
 
     // Update is called once per frame
@@ -195,6 +308,10 @@ public class Game : MonoBehaviour
             {
                 OnGrabBegin(ob);
             }
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            SaveGame("test");
         }
     }
 
