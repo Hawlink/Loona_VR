@@ -10,7 +10,12 @@ public class Animal
     private int _maxHappiness;
     private List<RareItem> _wear = new List<RareItem>();
     private Food _eat;
-    
+    public Food eat => _eat;
+
+    public int hunger => _hunger;
+
+    public int happiness => _happiness;
+
     public Animal(string name, int maxHappiness, Food eat)
     {
         _name = name;
@@ -34,6 +39,11 @@ public class Animal
         {
             _hunger++;
         }
+    }
+    
+    public void EatFood(Food food)
+    {
+        _hunger -= food.hungerRestoration;
     }
     
 }

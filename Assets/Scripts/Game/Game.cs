@@ -56,6 +56,8 @@ public class Game : MonoBehaviour
     /// </summary>
     private OVRGrabbable grabbedObject;
 
+    private List<AnimalBody> _animals = new List<AnimalBody>();
+    
 
     /// <summary>
     /// Get item by his name
@@ -167,11 +169,14 @@ public class Game : MonoBehaviour
         Camera.main.clearFlags = CameraClearFlags.SolidColor;
         Camera.main.backgroundColor = new Color(0.204f, 0.224f, 0.263f);
         
-        //Create a player and get the animals in the scene
+        //Create a player 
         _player = new Player("Player 1");
 
         AnimalBody[] animals = FindObjectsOfType<AnimalBody>();
-        //_player.addAnimal(new Animal("noname",100,_food[1]));
+        foreach (AnimalBody ab in animals)
+        {
+            _animals.Add(ab);
+        }
 
         StartCoroutine((GameLoop()));
 
@@ -202,12 +207,12 @@ public class Game : MonoBehaviour
     {
         while (_gameIsAlive)
         {
-            yield return new WaitForSeconds(10f);
+            yield return new WaitForSeconds(0.3f);
 
-            foreach (Animal animal in _player.animals)
+            foreach (AnimalBody animal in _animals)
             {
-                animal.IncreaseHunger();
-                animal.DecreaseHappiness();
+                animal.animal.IncreaseHunger();
+                animal.animal.DecreaseHappiness();
             }
         }
     }

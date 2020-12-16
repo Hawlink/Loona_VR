@@ -6,7 +6,6 @@ public class Player
 {
     private string _name;
 
-    private List<Animal> _animals = new List<Animal>();
 
     private List<Item> _inventory = new List<Item>();
 
@@ -14,9 +13,7 @@ public class Player
 
     public List<Item> inventory => _inventory;
     public List<Item> stock => _stock;
-
-    public List<Animal> animals => _animals;
-
+    
     public Player(string name)
     {
         _name = name;
@@ -43,12 +40,6 @@ public class Player
         _stock.Add(GameObject.FindObjectOfType<Game>().items[1]);
 
     }
-
-    public void addAnimal(Animal animal)
-    {
-        _animals.Add(animal);
-    }
-
 
     public void removeFromInventory(Item item)
     {
