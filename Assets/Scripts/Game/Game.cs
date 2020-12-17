@@ -272,9 +272,6 @@ public class Game : MonoBehaviour
         {
             _animals.Add(ab);
         }
-        
-        
-
 
         StartCoroutine((GameLoop()));
 
