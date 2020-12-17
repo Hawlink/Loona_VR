@@ -128,13 +128,36 @@ public class Watch : MonoBehaviour
         _circleInventory = null;
     }
 
+
+    IEnumerator WaitTriggerWatch()
+    {
+        yield return new WaitForSeconds(1f);
+        if (isIn)
+        {
+            m_canvas.SetActive(true);
+            InitializeCircleMenu();   
+        }
+        
+    }
+
+    private bool isIn = false;
     void OnTriggerEnter(Collider collider)
     {
         
         if (collider.gameObject.tag == "Hand" && !m_canvas.activeSelf)
         {
-            m_canvas.SetActive(true);
-            InitializeCircleMenu();
+            isIn = true;
+            StartCoroutine(WaitTriggerWatch());
+            //m_canvas.SetActive(true);
+            //InitializeCircleMenu();
+        }
+    }
+
+    void OnTriggerExit(Collider collider)
+    {
+        if (collider.gameObject.tag == "Hand" && !m_canvas.activeSelf)
+        {
+            isIn = false;
         }
     }
 

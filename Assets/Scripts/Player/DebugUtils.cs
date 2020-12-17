@@ -14,9 +14,9 @@ public class DebugUtils : MonoBehaviour
 
     void OnGUI()
     {
-        GUI.Label(new Rect(170, 350, 1000, 80), message);
-        GUI.Label(new Rect(170, 450, 1000, 80), message2);
-        GUI.Label(new Rect(170, 550, 400, 80), message3);
+        GUI.Label(new Rect(110, 350, 1000, 80), message);
+        GUI.Label(new Rect(110, 450, 1000, 80), message2);
+        GUI.Label(new Rect(110, 550, 400, 80), message3);
     }
     
     // Start is called before the first frame update

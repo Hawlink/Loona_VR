@@ -14,7 +14,6 @@ public class StateMachine
    public StateMachine(AnimalBody animal)
    {
       _animal = animal;
-      _current = new StateWalking(this);
    }
 
    public void Action()

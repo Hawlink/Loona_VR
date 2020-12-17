@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -82,6 +83,11 @@ public class Game : MonoBehaviour
     private OVRGrabbable grabbedObject;
 
     private List<AnimalBody> _animals = new List<AnimalBody>();
+
+    private GameObject _tutoArrow;
+    public GameObject tutoArrow => _tutoArrow;
+
+    private TutorialStateMachine _tutorial;
     
 
     /// <summary>
@@ -273,6 +279,9 @@ public class Game : MonoBehaviour
             _animals.Add(ab);
         }
 
+        _tutoArrow = GameObject.Find("Arrow");
+        _tutoArrow.SetActive(false);
+            
         StartCoroutine((GameLoop()));
 
     }
@@ -285,6 +294,10 @@ public class Game : MonoBehaviour
         {
             LoadGame(MainGameCommonValues.gameName);
         }
+        else
+        {
+            _tutorial = new TutorialStateMachine();
+        }
     }
     
     void Start()
@@ -295,6 +308,8 @@ public class Game : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        _tutorial?.Action();
+
         Quaternion fixedRotation = Quaternion.Euler(0, _playerGameObject.transform.rotation.eulerAngles.y,0);
         _playerGameObject.transform.rotation = fixedRotation;
 
