@@ -264,6 +264,7 @@ public class Game : MonoBehaviour
         
         _items.Add(new Food("Carrot","Prefabs/Objects/Carrot",60));
         _items.Add(new RareItem("Ribbon", "Prefabs/Objects/Ribbon", 40, new Vector3(-0.17f,0.83f,-0.26f), new Vector3(-90,0,0) ));
+        _items.Add(new Food("Nut","Prefabs/Objects/Nut",30));
 
         _playerGameObject = GameObject.Find("PlayerController");
         GameObject.Find("Terrain").layer = GameObject.Find("LayerModel").layer;

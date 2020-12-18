@@ -26,6 +26,7 @@ public class Player
         _inventory.Add(GameObject.FindObjectOfType<Game>().items[0]);
         _inventory.Add(GameObject.FindObjectOfType<Game>().items[1]);
         _inventory.Add(GameObject.FindObjectOfType<Game>().items[1]);
+        _inventory.Add(GameObject.FindObjectOfType<Game>().items[2]);
         _stock.Add(GameObject.FindObjectOfType<Game>().items[0]);
         _stock.Add(GameObject.FindObjectOfType<Game>().items[0]);
         _stock.Add(GameObject.FindObjectOfType<Game>().items[0]);

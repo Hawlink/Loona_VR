@@ -48,6 +48,9 @@ public class ItemBody : MonoBehaviour
             case ObjectType.Carrot:
                 _item = GameObject.FindObjectOfType<Game>().GetItem("Carrot");
                 break;
+            case ObjectType.Nut:
+                _item = GameObject.FindObjectOfType<Game>().GetItem("Nut");
+                break;
         }
     }
     
@@ -65,6 +68,11 @@ public class ItemBody : MonoBehaviour
             transform.localPosition = (item as RareItem).wornPosition;
             transform.localRotation = Quaternion.Euler((item as RareItem).wornRotation);
         }
+
+        if (transform.position.y < -50)
+        {
+            Destroy(gameObject);
+        }
     }
 }
 
@@ -76,5 +84,6 @@ public class ItemBody : MonoBehaviour
 public enum ObjectType
 {
     Ribbon,
-    Carrot
+    Carrot,
+    Nut
 }

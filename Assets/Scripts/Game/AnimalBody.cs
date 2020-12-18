@@ -26,6 +26,8 @@ public class AnimalBody : MonoBehaviour
     
     private ItemBody _foundFood = null;
 
+    private BodyDetection _detection;
+
     public ItemBody foundFood
     {
         get => _foundFood;
@@ -36,6 +38,7 @@ public class AnimalBody : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _detection = GetComponentInChildren<BodyDetection>(); 
         _initialPosition = transform.position;
         _navMeshAgent = GetComponent<NavMeshAgent>();
         Game game = GameObject.FindObjectOfType<Game>();
@@ -45,7 +48,7 @@ public class AnimalBody : MonoBehaviour
                 _animal =new Animal("Rabbit",100,game.GetItem("Carrot") as Food, game.GetItem("Ribbon") as RareItem);
                 break;
             case AnimalType.Deer:
-                _animal =new Animal("Deer",100,game.GetItem("Carrot") as Food, game.GetItem("Ribbon") as RareItem);
+                _animal =new Animal("Deer",100,game.GetItem("Nut") as Food, game.GetItem("Ribbon") as RareItem);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -55,12 +58,26 @@ public class AnimalBody : MonoBehaviour
         
     }
 
+    private bool inProgress = false;
+    IEnumerator TouchAnimal()
+    {
+        inProgress = true;
+        yield return new WaitForSeconds(0.1f);
+        _animal.IncreaseHappiness();
+        inProgress = false;
+    }
+    
     // Update is called once per frame
     void FixedUpdate()
     {
         _behavior.Action();
         transform.Find("Canvas").Find("ProgressBarHungry").GetComponent<Image>().fillAmount = (_animal.hunger / 100.0f);
         transform.Find("Canvas").Find("ProgressBarSad").GetComponent<Image>().fillAmount = (_animal.happiness / 100.0f);
+        transform.Find("Canvas").Find("TextState").GetComponent<Text>().text = _behavior.ToString();
+        if (_detection.touchAnimal && !inProgress)
+        {
+            StartCoroutine(TouchAnimal());
+        }
     }
     
     public void StartChildCoroutine(IEnumerator coroutineMethod)
@@ -98,16 +115,15 @@ public class AnimalBody : MonoBehaviour
     public void OnTriggerStay(Collider collider)
     {
         ItemBody body = collider.gameObject.GetComponent<ItemBody>();
-        if (body)
-        {
-            Debug.Log(animal.name + " - " + body.item.name + " - " + (body.item == _animal.canWear));
-        }
-        if (foundFood != null && body != null && body.item == _animal.eat && body.gameObject.GetComponent<Rigidbody>().useGravity)
+        //if (body != null)
+        //{
+        //}
+        if (foundFood == null && body != null && body.item == _animal.eat && (body.transform.parent == null && !body.gameObject.GetComponent<OVRGrabbable>().isGrabbed) /* body.gameObject.GetComponent<Rigidbody>().useGravity*/)
         {
             foundFood = body;
         }
 
-        if (!animal.WearItem() && body != null && body.item == _animal.canWear && body.gameObject.GetComponent<Rigidbody>().useGravity)
+        if (!animal.WearItem() && body != null && body.item == _animal.canWear && (body.transform.parent == null && !body.gameObject.GetComponent<OVRGrabbable>().isGrabbed) /*body.gameObject.GetComponent<Rigidbody>().useGravity*/)
         {
             RareItem item = body.item as RareItem;
             DebugUtils.message = animal.name + " - " + body.item.name;

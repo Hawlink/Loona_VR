@@ -9,6 +9,7 @@ public class StateSleeping : State
     
     public StateSleeping(StateMachine stateMachine) : base(stateMachine)
     {
+        _stateMachine.animal.NavMeshAgent.SetDestination(_stateMachine.animal.transform.position);
         _hasSleeped = false;
         _stateMachine.animal.StartChildCoroutine(Sleeping());
     }

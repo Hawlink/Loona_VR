@@ -7,6 +7,7 @@ public class StateDrinking : State
     private Vector3 _destination;
 
     private bool _drank;
+    private Game _game;
 
     public StateDrinking(StateMachine stateMachine) : base(stateMachine)
     {
@@ -15,6 +16,7 @@ public class StateDrinking : State
         
         _stateMachine.animal.MoveToDestination(waterPointLocation);
         _destination = waterPointLocation;
+        _game = GameObject.FindObjectOfType<Game>();
 
     }
 
@@ -36,7 +38,11 @@ public class StateDrinking : State
     {
         State res = this;
         
-        if (_stateMachine.animal.isHungry())
+        if (Vector3.Distance(_stateMachine.animal.transform.position, _game.transform.position) < 5)
+        {
+            res = new StateNearPlayer(_stateMachine);
+        }
+        else if (_stateMachine.animal.isHungry())
         {
             res = new StateHungry(_stateMachine);
         }

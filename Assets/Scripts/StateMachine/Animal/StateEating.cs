@@ -17,11 +17,14 @@ public class StateEating : State
 
     public override void Action()
     {
-        if (Vector3.Distance(_food.transform.position, _stateMachine.animal.transform.position) < 3)
+        if (_food != null)
         {
-            _stateMachine.animal.animal.EatFood(_food.GetComponent<ItemBody>().item as Food);
-            GameObject.Destroy(_food);
-            _ate = true;
+            if (Vector3.Distance(_food.transform.position, _stateMachine.animal.transform.position) < 3)
+            {
+                _stateMachine.animal.animal.EatFood(_food.GetComponent<ItemBody>().item as Food);
+                GameObject.Destroy(_food);
+                _ate = true;
+            }
         }
     }
 
@@ -31,6 +34,11 @@ public class StateEating : State
         if (_ate)
         {
             res = new StateWalking(_stateMachine);
+        }
+
+        if (_food == null)
+        {
+            res = new StateHungry(_stateMachine);
         }
         return res;
     }

@@ -50,6 +50,14 @@ public class Animal
         }
     }
 
+    public void IncreaseHappiness()
+    {
+        if (_happiness < 99)
+        {
+            _happiness++;
+        }
+    }
+
     public void IncreaseHunger()
     {
         if (_hunger < 99)
@@ -72,5 +80,5 @@ public class Animal
     {
         return _wear != null;
     }
-    
+
 }

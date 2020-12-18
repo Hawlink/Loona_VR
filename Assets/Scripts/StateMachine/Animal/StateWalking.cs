@@ -7,11 +7,13 @@ public class StateWalking : State
 {
 
     private Vector3 _destination;
+    private Game _game;
     
     public StateWalking(StateMachine stateMachine) : base(stateMachine)
     {
         MoveToDestination();
-        
+        _game = GameObject.FindObjectOfType<Game>();
+
     }
 
     private void MoveToDestination()
@@ -44,6 +46,10 @@ public class StateWalking : State
         else if (_stateMachine.animal.isSad())
         {
             res = new StateSad(_stateMachine);
+        }
+        else if (Vector3.Distance(_stateMachine.animal.transform.position, _game.transform.position) < 5)
+        {
+            res = new StateNearPlayer(_stateMachine);
         }
         else if (Random.Range(0, 600) == 1)
         {

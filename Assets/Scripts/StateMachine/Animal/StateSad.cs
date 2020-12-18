@@ -8,11 +8,13 @@ using UnityEngine;
 public class StateSad : State
 {
     private Vector3 _destination;
+    private Game _game;
 
     public StateSad(StateMachine stateMachine) : base(stateMachine)
     {
         _stateMachine.animal.SetSlowSpeed();
         MoveToDestination();
+        _game = GameObject.FindObjectOfType<Game>();
     }
     
     private void MoveToDestination()
@@ -37,7 +39,11 @@ public class StateSad : State
     public override State Next()
     {
         State res;
-        if (_stateMachine.animal.isHungry())
+        if (Vector3.Distance(_stateMachine.animal.transform.position, _game.transform.position) < 5)
+        {
+            res = new StateNearPlayer(_stateMachine);
+        }
+        else if (_stateMachine.animal.isHungry())
         {
             _stateMachine.animal.SetNormalSpeed();
             res = new StateHungry(_stateMachine);

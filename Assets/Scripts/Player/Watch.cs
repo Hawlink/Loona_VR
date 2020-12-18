@@ -71,15 +71,15 @@ public class Watch : MonoBehaviour
         Vector3 rotation = _circleInventory.transform.rotation.eulerAngles;
         rotation = new Vector3(rotation.x, offset, rotation.z);
         _circleInventory.transform.rotation = Quaternion.Euler(rotation);
-    
     }
 
     public void InitializeCircleMenu()
     {
 
+        DestroyCircleMenu();
         _circleInventory = PlayerUtils.InitializeCircleMenu(GameObject.FindObjectOfType<Game>().player.inventory,
             m_canvas.transform.parent.parent.parent.parent, new Vector3(-0.6f, 0.65f, 1f), 0.6f, 0.75f);
-        
+
         /*
         Dictionary<Item,int> inventory = new Dictionary<Item, int>();
         foreach (Item item in GameObject.FindObjectOfType<Game>().player.inventory)
