@@ -263,8 +263,9 @@ public class Game : MonoBehaviour
         _messageCanvas.SetActive(false);
         
         _items.Add(new Food("Carrot","Prefabs/Objects/Carrot",60));
-        _items.Add(new RareItem("Ribbon", "Prefabs/Objects/Ribbon", 40, new Vector3(-0.17f,0.83f,-0.26f), new Vector3(-90,0,0) ));
+        _items.Add(new RareItem("Ribbon", "Prefabs/Objects/Ribbon", 40, new Vector3(-0.851f,0.529f,-0.482f), new Vector3(-31.65f,-80.9f,71.9f) ));
         _items.Add(new Food("Nut","Prefabs/Objects/Nut",30));
+        _items.Add(new RareItem("Garland", "Prefabs/Objects/Garland", 40, new Vector3(0.47f,7.86f,0.8f), new Vector3(0,0,0) ));
 
         _playerGameObject = GameObject.Find("PlayerController");
         GameObject.Find("Terrain").layer = GameObject.Find("LayerModel").layer;
@@ -362,6 +363,7 @@ public class Game : MonoBehaviour
             Destroy(grabbable.transform.Find("3DText").gameObject);
             grabbable.gameObject.GetComponent<Rigidbody>().isKinematic = false;
             grabbable.gameObject.GetComponent<Rigidbody>().useGravity = true;
+            grabbable.gameObject.GetComponent<ItemBody>().ActivateColliders();
             grabbable.transform.parent = null;
             
             //Item is in hand and now no longer in the inventory

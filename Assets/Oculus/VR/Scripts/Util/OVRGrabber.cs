@@ -14,6 +14,7 @@ ANY KIND, either express or implied. See the License for the specific language g
 permissions and limitations under the License.
 ************************************************************************************/
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -246,13 +247,20 @@ public class OVRGrabber : MonoBehaviour
             {
                 Collider grabbableCollider = grabbable.grabPoints[j];
                 // Store the closest grabbable
-                Vector3 closestPointOnBounds = grabbableCollider.ClosestPointOnBounds(m_gripTransform.position);
-                float grabbableMagSq = (m_gripTransform.position - closestPointOnBounds).sqrMagnitude;
-                if (grabbableMagSq < closestMagSq)
+                try
                 {
-                    closestMagSq = grabbableMagSq;
-                    closestGrabbable = grabbable;
-                    closestGrabbableCollider = grabbableCollider;
+                    Vector3 closestPointOnBounds = grabbableCollider.ClosestPointOnBounds(m_gripTransform.position);
+                    float grabbableMagSq = (m_gripTransform.position - closestPointOnBounds).sqrMagnitude;
+                    if (grabbableMagSq < closestMagSq)
+                    {
+                        closestMagSq = grabbableMagSq;
+                        closestGrabbable = grabbable;
+                        closestGrabbableCollider = grabbableCollider;
+                    }
+                }
+                catch (Exception c)
+                {
+                    
                 }
             }
         }

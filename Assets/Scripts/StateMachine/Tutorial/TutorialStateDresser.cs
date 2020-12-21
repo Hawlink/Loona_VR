@@ -13,7 +13,8 @@ public class TutorialStateDresser : State
         
         _game = GameObject.FindObjectOfType<Game>();
         _game.tutoArrow.SetActive(true);
-        _game.tutoArrow.transform.position = _dresserLocation + new Vector3(0, 2, 0);
+        _game.tutoArrow.transform.position = _dresserLocation + new Vector3(1.5f, 3.25f, 0);
+        _game.tutoArrow.transform.rotation = Quaternion.Euler(new Vector3(0,0,-50));
         _game.messageCanvas.GetComponentInChildren<Text>().text = "Dirigez vous vers l'armoire";
 
     }

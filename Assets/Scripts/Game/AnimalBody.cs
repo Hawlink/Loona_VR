@@ -48,7 +48,7 @@ public class AnimalBody : MonoBehaviour
                 _animal =new Animal("Rabbit",100,game.GetItem("Carrot") as Food, game.GetItem("Ribbon") as RareItem);
                 break;
             case AnimalType.Deer:
-                _animal =new Animal("Deer",100,game.GetItem("Nut") as Food, game.GetItem("Ribbon") as RareItem);
+                _animal =new Animal("Deer",100,game.GetItem("Nut") as Food, game.GetItem("Garland") as RareItem);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -130,6 +130,11 @@ public class AnimalBody : MonoBehaviour
             body.gameObject.transform.parent = transform;
             animal.SetWearItem(item);
             Destroy(body.gameObject.GetComponent<OVRGrabbable>());
+            Collider[] colliders = body.gameObject.GetComponents<Collider>();
+            foreach (Collider co in colliders)
+            {
+                Destroy(co);
+            }
             body.gameObject.GetComponent<Rigidbody>().useGravity = false;
             body.gameObject.GetComponent<Rigidbody>().isKinematic = true;
         }

@@ -52,6 +52,8 @@ public class PlayerUtils
 
                 if(toDestroy != null) GameObject.Destroy(toDestroy);*/
             }
+
+            item.GetComponent<ItemBody>().DeactivateColliders();
             item.GetComponent<Rigidbody>().useGravity = false;
             item.GetComponent<Rigidbody>().isKinematic = true;
             //capsule.transform.localScale = new Vector3(0.1f,0.1f,0.1f);
@@ -64,7 +66,10 @@ public class PlayerUtils
             tm.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f) * scale;
             tm.transform.parent = item.transform;
             tm.transform.localPosition = new Vector3(0, 0, 0);
-            tm.text = kvp.Value.ToString();
+            tm.text = kvp.Key.name + "\n" + kvp.Value.ToString();
+            Font font = Resources.Load ( "Fonts/BOD_B",typeof(Font)) as Font;
+            tm.font = font;
+            tm.GetComponent<Renderer>().sharedMaterial = font.material;
             text.AddComponent<FacingCamera>();
             i++;
         }

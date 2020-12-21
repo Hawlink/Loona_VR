@@ -35,6 +35,28 @@ public class ItemBody : MonoBehaviour
         set => _item = value;
     }
 
+    private Collider[] _colliders = new Collider[0];
+
+
+
+    public void DeactivateColliders()
+    {
+        DebugUtils.message = _colliders.Length.ToString();
+        foreach (Collider collider in _colliders)
+        {
+            collider.enabled = false;
+        }
+    }
+    
+    public void ActivateColliders()
+    {
+        foreach (Collider collider in _colliders)
+        {
+            collider.enabled = true;
+        }
+    }
+
+    
     /// <summary>
     /// Create the body in function of the item type
     /// </summary>
@@ -51,6 +73,9 @@ public class ItemBody : MonoBehaviour
             case ObjectType.Nut:
                 _item = GameObject.FindObjectOfType<Game>().GetItem("Nut");
                 break;
+            case ObjectType.Garland:
+                _item = GameObject.FindObjectOfType<Game>().GetItem("Garland");
+                break;
         }
     }
     
@@ -58,6 +83,7 @@ public class ItemBody : MonoBehaviour
     void Start()
     {
         InitializeItem();
+        _colliders = GetComponents<Collider>();
     }
 
     // Update is called once per frame
@@ -85,5 +111,6 @@ public enum ObjectType
 {
     Ribbon,
     Carrot,
-    Nut
+    Nut,
+    Garland
 }

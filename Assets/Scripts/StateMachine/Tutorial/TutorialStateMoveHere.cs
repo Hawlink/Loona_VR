@@ -29,7 +29,7 @@ public class TutorialStateMoveHere : State
     public override State Next()
     {
         State res = this;
-        if (Vector3.Distance(_target, _game.transform.position) < 3)
+        if (Vector3.Distance(_target, _game.transform.position) < 6)
         {
             if (!_secondTeleportation)
             {

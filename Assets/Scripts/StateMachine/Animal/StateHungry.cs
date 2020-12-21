@@ -31,7 +31,7 @@ public class StateHungry : State
         {
             res = new StateEating(_stateMachine);
         }
-        else if (Vector3.Distance(_stateMachine.animal.transform.position, _game.transform.position) < 5)
+        else if (Vector3.Distance(_stateMachine.animal.transform.position, _game.transform.position) < 4)
         {
             res = new StateNearPlayer(_stateMachine);
         }
