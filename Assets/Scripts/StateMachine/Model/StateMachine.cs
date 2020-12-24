@@ -8,12 +8,15 @@ public class StateMachine
 
    private AnimalBody _animal;
 
+   private bool _isDead;
+
    public AnimalBody animal => _animal;
    public State current => _current;
 
    public StateMachine(AnimalBody animal)
    {
       _animal = animal;
+      _isDead = false;
    }
 
    public void Action()
@@ -22,6 +25,14 @@ public class StateMachine
       {
          _current.Action();
          _current = _current.Next();
+         
+         //Generic transitions
+         if (_animal != null && !_isDead &&  (_animal.animal.happiness == 0 || _animal.animal.hunger == 100))
+         {
+            _isDead = true;
+            _current = new StateDead(this);
+         }
+         
       }
    }
 

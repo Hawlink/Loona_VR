@@ -338,7 +338,7 @@ public class Game : MonoBehaviour
     {
         while (_gameIsAlive)
         {
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.5f);
 
             foreach (AnimalBody animal in _animals)
             {

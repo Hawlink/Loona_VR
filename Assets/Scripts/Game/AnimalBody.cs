@@ -139,6 +139,25 @@ public class AnimalBody : MonoBehaviour
             body.gameObject.GetComponent<Rigidbody>().isKinematic = true;
         }
     }
+
+
+    IEnumerator DeathAnimation()
+    {
+        for (int i = 0; i < 90; i++)
+        {
+            Vector3 rotation = transform.rotation.eulerAngles;
+            rotation.z++;
+            yield return new WaitForSeconds(0.05f);
+            transform.rotation = Quaternion.Euler(rotation);
+            
+        }
+    }
+    
+    public void Death()
+    {
+        Destroy(GetComponent<NavMeshAgent>());
+        StartCoroutine(DeathAnimation());
+    }
 }
 
 public enum AnimalType
