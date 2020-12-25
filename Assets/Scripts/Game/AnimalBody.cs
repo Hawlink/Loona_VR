@@ -34,6 +34,9 @@ public class AnimalBody : MonoBehaviour
         set => _foundFood = value;
     }
 
+    private Sprite _criticalImage;
+    private Sprite _normalImage;
+
 
     // Start is called before the first frame update
     void Start()
@@ -55,7 +58,9 @@ public class AnimalBody : MonoBehaviour
         }
 
         _behavior = new AnimalStateMachine(this);
-        
+        _criticalImage = Resources.Load("UI/ProgressBarCritical", typeof(Sprite)) as Sprite;
+        _normalImage = transform.Find("Canvas").Find("ProgressBarHungry").GetComponent<Image>().sprite;
+
     }
 
     private bool inProgress = false;
@@ -73,6 +78,22 @@ public class AnimalBody : MonoBehaviour
         _behavior.Action();
         transform.Find("Canvas").Find("ProgressBarHungry").GetComponent<Image>().fillAmount = (_animal.hunger / 100.0f);
         transform.Find("Canvas").Find("ProgressBarSad").GetComponent<Image>().fillAmount = (_animal.happiness / 100.0f);
+        if (_animal.hunger > 70)
+        {
+            transform.Find("Canvas").Find("ProgressBarHungry").GetComponent<Image>().sprite = _criticalImage;
+        }
+        else
+        {
+            transform.Find("Canvas").Find("ProgressBarHungry").GetComponent<Image>().sprite = _normalImage;
+        }
+        if (_animal.happiness < 30)
+        {
+            transform.Find("Canvas").Find("ProgressBarSad").GetComponent<Image>().sprite = _criticalImage;
+        }
+        else
+        {
+            transform.Find("Canvas").Find("ProgressBarSad").GetComponent<Image>().sprite = _normalImage;
+        }
         transform.Find("Canvas").Find("TextState").GetComponent<Text>().text = _behavior.ToString();
         if (_detection.touchAnimal && !inProgress)
         {
