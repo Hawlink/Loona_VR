@@ -14,6 +14,7 @@ public class TutorialStateMoveHere : State
     public TutorialStateMoveHere(StateMachine stateMachine, Vector3 target, string message, bool secondTeleportation) : base(stateMachine)
     {
         _game = GameObject.FindObjectOfType<Game>();
+        _game.messageCanvas.SetActive(true);
         _target = target;
         _game.tutoArrow.SetActive(true);
         _game.tutoArrow.transform.position = _target + new Vector3(0, 5, 0);

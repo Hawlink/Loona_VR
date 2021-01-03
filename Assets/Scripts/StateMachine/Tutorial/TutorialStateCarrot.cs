@@ -28,7 +28,7 @@ public class TutorialStateCarrot : State
         State res = this;
         if (_tutoCarrot == null)
         {
-              res = new TutorialStateMoveHere(_stateMachine,GameObject.Find("TutoPassage3").transform.position,"Entrez dans la cabanne",true);                 
+              res = new TutorialStateMoveHere(_stateMachine,GameObject.Find("TutoPassage3").transform.position,"Entrez dans la cabane",true);                 
         }
         return res;
     }

@@ -46,6 +46,9 @@ public class FoodGenerator : MonoBehaviour
 
         GameObject prefab = Resources.Load(item.prefab, typeof(GameObject)) as GameObject;
         GameObject spawnedItem = Instantiate(prefab,transform.position + offset ,Quaternion.identity);
+        DebugUtils.message = "GENERATED FOOD";
+        DebugUtils.message2 = "GENERATED FOOD";
+        DebugUtils.message3 = "GENERATED FOOD";
     }
     
     IEnumerator GeneratorLoop()

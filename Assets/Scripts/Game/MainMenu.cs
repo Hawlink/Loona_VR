@@ -18,9 +18,9 @@ public class MainMenu : MonoBehaviour
     void Start()
     {
         _canvasPopup = GameObject.Find("LoadPanel");
-        _canvasPopup.SetActive(true);
-        
-        
+        _canvasPopup.SetActive(false);
+        //BtnLoadGameOnClick();
+
 
     }
 
@@ -55,12 +55,21 @@ public class MainMenu : MonoBehaviour
         {
             string allSavegamesString = PlayerPrefs.GetString("Savegames");
             Savegames allSavegames = JsonUtility.FromJson<Savegames>(allSavegamesString);
+            
+            /*GameObject button2 = Resources.Load("UI/WoodButton", typeof(GameObject)) as GameObject;
+            button2 = Instantiate(button2, GameObject.Find("LoadPanel").transform);
+            button2.transform.GetChild(0).GetComponent<Text>().text = "baepsae";
+            button2.GetComponent<RectTransform>().position = new Vector3(button2.GetComponent<RectTransform>().position.x, button2.GetComponent<RectTransform>().position.y, 0);
+            button2.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+            button2.GetComponent<Button>().onClick.AddListener(delegate { BtnSavedGameOnClick("baepsae"); });*/
+            
             foreach (Savegame s in allSavegames.savegames)
             {
                 GameObject button = Resources.Load("UI/WoodButton", typeof(GameObject)) as GameObject;
-                button = Instantiate(button);
-                button.transform.parent = GameObject.Find("LoadPanel").transform;
+                button = Instantiate(button,GameObject.Find("LoadPanel").transform);
                 button.transform.GetChild(0).GetComponent<Text>().text = s.name;
+                button.GetComponent<RectTransform>().position = new Vector3(button.GetComponent<RectTransform>().position.x, button.GetComponent<RectTransform>().position.y, 0);
+                button.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
                 button.GetComponent<Button>().onClick.AddListener(delegate { BtnSavedGameOnClick(s.name); });
             }
         }

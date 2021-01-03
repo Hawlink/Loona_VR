@@ -12,8 +12,8 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
-  productName: Projet_Test_Environnement
+  companyName: UTBM_VI50
+  productName: Heevi_VR
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -124,7 +124,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 0.1
+  bundleVersion: 1
   preloadedAssets:
   - {fileID: 498472480905779686, guid: 28299e3762a650f4c935787a61a8b0c2, type: 2}
   - {fileID: 11400000, guid: bd3892eb0a2938847afcdd7a4bb10339, type: 2}

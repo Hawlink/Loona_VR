@@ -21,7 +21,7 @@ public class Player
         _name = name;
         
         //Add randomly items in stock and inventory for test purpose 
-        _inventory.Add(GameObject.FindObjectOfType<Game>().items[0]);
+        /*_inventory.Add(GameObject.FindObjectOfType<Game>().items[0]);
         _inventory.Add(GameObject.FindObjectOfType<Game>().items[0]);
         _inventory.Add(GameObject.FindObjectOfType<Game>().items[0]);
         _inventory.Add(GameObject.FindObjectOfType<Game>().items[1]);
@@ -40,7 +40,7 @@ public class Player
         _stock.Add(GameObject.FindObjectOfType<Game>().items[1]);
         _stock.Add(GameObject.FindObjectOfType<Game>().items[1]);
         _stock.Add(GameObject.FindObjectOfType<Game>().items[1]);
-        _stock.Add(GameObject.FindObjectOfType<Game>().items[1]);
+        _stock.Add(GameObject.FindObjectOfType<Game>().items[1]);*/
 
     }
 
